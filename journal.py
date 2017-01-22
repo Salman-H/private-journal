@@ -1,3 +1,4 @@
+import datatime
 from peewee import *
 
 # make a sqlite connection
@@ -7,8 +8,12 @@ db = SqliteDatabase('journal.db')
 # our entry model is going to hold our journal entries
 class Entry(Model):
     """ Holds jounral entries"""
-    # content
-    # timestamp
+    # not using VarChar field since it demands a max length
+    content = TextField()
+    # we want the datetime for *whenever* an entry is created.
+    # so we use .now instead of .now() since the latter will
+    # simply give us the datetime for when we ran the script.
+    timestamp = DateTimeField(default=datetime.datetime.now)
     
     class Meta:
         database = db
