@@ -1,4 +1,4 @@
-import datatime
+import datetime
 from peewee import *
 
 # make a sqlite connection
@@ -17,7 +17,14 @@ class Entry(Model):
     
     class Meta:
         database = db
-        
+ 
+
+def initialize():
+    """ Create db and table if not already done"""
+    db.connect()
+    # safe=True so peewee won't break if ran multiple times with already created tables
+    db.create_tables([Entry], safe=True)
+
 
 def menu_loop():
     """ Show the menu"""
@@ -43,5 +50,6 @@ def delete_entry(entry):
 # via a command-line or via a python web app; only the display
 # of  information changes.
 if __name__ == '__main__':
+    initialize()
     menu_loop()
     
