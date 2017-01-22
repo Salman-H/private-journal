@@ -1,8 +1,15 @@
 import datetime
+from collections import OrderedDict
 from peewee import *
 
 # make a sqlite connection
 db = SqliteDatabase('journal.db')
+
+# an ordered dict used to display menu and call relevant functions
+menu = OrderedDict([
+    ('a', 'add_entry'),
+    ('v', 'view_entries')
+])
 
 
 # our entry model is going to hold our journal entries
@@ -15,6 +22,7 @@ class Entry(Model):
     # simply give us the datetime for when we ran the script.
     timestamp = DateTimeField(default=datetime.datetime.now)
     
+    # add db as the database attribute in the Meta class
     class Meta:
         database = db
  
