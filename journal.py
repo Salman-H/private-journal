@@ -1,5 +1,7 @@
-import datetime
 from collections import OrderedDict
+import datetime
+import sys
+
 from peewee import *
 
 # make a sqlite connection
@@ -33,7 +35,7 @@ def menu_loop():
     choice = None
     
     while choice != 'q':
-        print("Enter 'q' to quit.")
+        print("\nEnter 'q' to quit.")
         for key, value in menu.items():
             # in our menu dict, keys are choices and values are functions
             print('{}) {}'.format(key, value.__doc__))
@@ -48,6 +50,18 @@ def menu_loop():
     
 def add_entry():
     """Add an entry."""
+    print("Enter your entry. Press ctrl+d when finished.")
+    data = sys.stdin.read().strip()
+    
+    if data:
+        while True:
+            action = input("\nSave Entry? [Yn] ").lower()
+            if action in ('y', 'n'):
+                break
+            
+        if action == "y":    
+            Entry.create(content=data)
+            print("Saved successfully!")
     
     
 def view_entries():
