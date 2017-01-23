@@ -75,22 +75,26 @@ def view_entries(search_query=None):
         
     for entry in entries:
         timestamp = entry.timestamp.strftime('%A %B %d, %Y %I:%M%p')
-        print(timestamp)
+        print('\n' + timestamp)
         # underline the timestamp with '=' characters equal to its length
         print('=' * len(timestamp))
         # print the entry
         print(entry.content)
         
         print("\nn) for next entry")
-        print("q) to return to main menu")
+        print("d) delete entry")
+        print("q) return to main menu")
         
         while True:
-            next_action = input('Action: [Nq] ').lower().strip()
-            if next_action in ('n', 'q'):
+            next_action = input('Action: [Ndq] ').lower().strip()
+            if next_action in ('n', 'd', 'q'):
                 break
             
         if next_action == 'q':    
             break
+        
+        if next_action == 'd':
+            delete_entry(entry)
         
 
 def search_entries():
@@ -100,6 +104,9 @@ def search_entries():
 
 def delete_entry(entry):
     """Delete an entry."""
+    if input('Are you sure you want to delete this entry? [yN] ').lower().strip() == 'y':
+        entry.delete_instance()
+        print('Entry deleted!')
     
   
 # an ordered dict used to display menu and call relevant functions
